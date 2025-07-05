@@ -1,0 +1,164 @@
+openapi: 3.0.0
+info:
+  title: API de Gestión de Inventario
+  version: 1.0.0
+  description: Contrato de la API para productos, proveedores, categorías, movimientos y alertas.
+paths:
+  /api/productos:
+    get:
+      summary: Obtener todos los productos
+      responses:
+        '200':
+          description: Lista de productos
+    post:
+      summary: Crear un producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Producto'
+      responses:
+        '201':
+          description: Producto creado
+  /api/proveedores:
+    get:
+      summary: Obtener todos los proveedores
+      responses:
+        '200':
+          description: Lista de proveedores
+    post:
+      summary: Crear proveedor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Proveedor'
+      responses:
+        '201':
+          description: Proveedor creado
+  /api/categorias:
+    get:
+      summary: Obtener todas las categorías
+      responses:
+        '200':
+          description: Lista de categorías
+    post:
+      summary: Crear una categoría
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Categoria'
+      responses:
+        '201':
+          description: Categoría creada
+  /api/movimientos:
+    get:
+      summary: Obtener todos los movimientos
+      responses:
+        '200':
+          description: Lista de movimientos
+    post:
+      summary: Registrar un movimiento (entrada o salida)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movimiento'
+      responses:
+        '201':
+          description: Movimiento registrado
+  /api/alertas:
+    get:
+      summary: Obtener todas las alertas activas
+      responses:
+        '200':
+          description: Lista de alertas
+  /api/alertas/{id}:
+    put:
+      summary: Marcar alerta como atendida
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlertaActualizada'
+      responses:
+        '200':
+          description: Alerta actualizada
+components:
+  schemas:
+    Producto:
+      type: object
+      properties:
+        nombre:
+          type: string
+        descripcion:
+          type: string
+        precio:
+          type: number
+        stock:
+          type: integer
+        stock_minimo:
+          type: integer
+        categoria_id:
+          type: integer
+        proveedor_id:
+          type: integer
+    Proveedor:
+      type: object
+      properties:
+        nombre:
+          type: string
+        contacto:
+          type: string
+        direccion:
+          type: string
+    Categoria:
+      type: object
+      properties:
+        nombre:
+          type: string
+        descripcion:
+          type: string
+    Movimiento:
+      type: object
+      properties:
+        tipo:
+          type: string
+          enum: [entrada, salida]
+        producto_id:
+          type: integer
+        proveedor_id:
+          type: integer
+        cantidad:
+          type: integer
+        fecha:
+          type: string
+          format: date
+    Alerta:
+      type: object
+      properties:
+        producto_id:
+          type: integer
+        stock_actual:
+          type: integer
+        stock_minimo:
+          type: integer
+        mensaje:
+          type: string
+    AlertaActualizada:
+      type: object
+      properties:
+        atendida:
+          type: boolean
