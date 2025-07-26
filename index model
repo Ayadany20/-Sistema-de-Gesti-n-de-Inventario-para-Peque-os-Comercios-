@@ -1,0 +1,35 @@
+// models/index.js
+
+const sequelize = require('../config/db');
+
+const Usuario = require('./usuario.model');
+const Producto = require('./producto.model');
+const Categoria = require('./categoria.model');
+const Proveedor = require('./proveedor.model');
+const Alerta = require('./alerta.model');
+const Movimiento = require('./movimiento.model');
+const SkuProducto = require('./sku_producto.model');
+
+// Relaciones
+Producto.belongsTo(Categoria, { foreignKey: 'categoria_id' });
+Producto.belongsTo(Proveedor, { foreignKey: 'proveedor_id' });
+Producto.belongsTo(Usuario, { foreignKey: 'usuario_id' });
+
+SkuProducto.belongsTo(Producto, { foreignKey: 'producto_id' });
+
+Movimiento.belongsTo(Producto, { foreignKey: 'producto_id' });
+Movimiento.belongsTo(Proveedor, { foreignKey: 'proveedor_id' });
+
+Alerta.belongsTo(Producto, { foreignKey: 'producto_id' });
+Alerta.belongsTo(Usuario, { foreignKey: 'usuario_id' });
+
+module.exports = {
+  sequelize,
+  Usuario,
+  Producto,
+  Categoria,
+  Proveedor,
+  Alerta,
+  Movimiento,
+  SkuProducto
+};
