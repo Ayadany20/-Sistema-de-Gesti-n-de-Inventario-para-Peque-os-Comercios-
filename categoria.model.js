@@ -2,9 +2,9 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
 const Categoria = sequelize.define('categoria', {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  nombre: DataTypes.STRING,
-  descripcion: DataTypes.TEXT
+  categoriaId: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  namecategoria: { type: DataTypes.STRING(100), allowNull: false },
+  descripcioncategoria: { type: DataTypes.STRING(150), allowNull: false }
 }, {
   tableName: 'categoria',
   timestamps: false
