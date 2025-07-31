@@ -11,17 +11,17 @@ const Movimiento = require('./movimiento.model');
 const SkuProducto = require('./sku_producto.model');
 
 // Relaciones
-Producto.belongsTo(Categoria, { foreignKey: 'categoria_id' });
-Producto.belongsTo(Proveedor, { foreignKey: 'proveedor_id' });
-Producto.belongsTo(Usuario, { foreignKey: 'usuario_id' });
+Producto.belongsTo(Categoria, { foreignKey: 'categoriaId' });
+Producto.belongsTo(Proveedor, { foreignKey: 'proveedorId' });
+Producto.belongsTo(Usuario, { foreignKey: 'usuarioId' });
 
-SkuProducto.belongsTo(Producto, { foreignKey: 'producto_id' });
+SkuProducto.belongsTo(Producto, { foreignKey: 'productoId' });
 
-Movimiento.belongsTo(Producto, { foreignKey: 'producto_id' });
-Movimiento.belongsTo(Proveedor, { foreignKey: 'proveedor_id' });
+Movimiento.belongsTo(Producto, { foreignKey: 'productoId' });
+Movimiento.belongsTo(Proveedor, { foreignKey: 'proveedorId' });
 
-Alerta.belongsTo(Producto, { foreignKey: 'producto_id' });
-Alerta.belongsTo(Usuario, { foreignKey: 'usuario_id' });
+Alerta.belongsTo(Producto, { foreignKey: 'productoId' });
+Alerta.belongsTo(Usuario, { foreignKey: 'usuarioId' });
 
 module.exports = {
   sequelize,
