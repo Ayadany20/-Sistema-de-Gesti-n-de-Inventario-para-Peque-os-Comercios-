@@ -1,16 +1,16 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-const SkuProducto = sequelize.define('sku_producto', {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  producto_id: DataTypes.INTEGER,
-  codigo_sku: DataTypes.STRING,
-  descripcion: DataTypes.TEXT,
-  precio: DataTypes.DECIMAL,
-  stock: DataTypes.INTEGER,
-  stock_minimo: DataTypes.INTEGER
+const SkuProducto = sequelize.define('SkuProducto', {
+  skuId: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  productoId: { type: DataTypes.INTEGER, allowNull: true },
+  codigosku: { type: DataTypes.STRING(100), allowNull: false },
+  descripcion: { type: DataTypes.STRING(100), allowNull: false },
+  precio: { type: DataTypes.DECIMAL(10, 1), allowNull: false },
+  stock: { type: DataTypes.INTEGER, allowNull: false },
+  stockMinimo: { type: DataTypes.INTEGER, allowNull: false }
 }, {
-  tableName: 'sku_producto',
+  tableName: 'SkuProducto',
   timestamps: false
 });
 
