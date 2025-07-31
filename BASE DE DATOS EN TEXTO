@@ -1,0 +1,276 @@
+USE [Inventario]
+GO
+– Object:  Table [dbo].[alerta]    
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[alerta](
+	[alertaId] [int] IDENTITY(1,1) NOT NULL,
+	[fecha] [date] NOT NULL,
+	[mensaje] [varchar](100) NOT NULL,
+	[atendida] [bit] NOT NULL,
+	[usuarioId] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[alertaId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+– Object:  Table [dbo].[categoria]    
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[categoria](
+	[categoriaId] [int] IDENTITY(1,1) NOT NULL,
+	[namecategoria] [varchar](100) NOT NULL,
+	[descripcioncategoria] [varchar](150) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[categoriaId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+–Object:  Table [dbo].[movimiento]    
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[movimiento](
+	[movimientoId] [int] IDENTITY(1,1) NOT NULL,
+	[tipomovimiento] [varchar](100) NOT NULL,
+	[cantidad] [int] NOT NULL,
+	[fecha] [date] NOT NULL,
+	[precioProducto] [decimal](10, 2) NULL,
+	[proveedorId] [int] NULL,
+	[productoId] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[movimientoId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+– Object:  Table [dbo].[Productos]    
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Productos](
+	[productoId] [int] IDENTITY(1,1) NOT NULL,
+	[nameProducto] [varchar](100) NOT NULL,
+	[descripcion] [varchar](100) NOT NULL,
+	[precio] [decimal](10, 2) NOT NULL,
+	[stock] [int] NULL,
+	[stockMinimo] [int] NOT NULL,
+	[proveedorId] [int] NULL,
+	[categoriaId] [int] NULL,
+	[usuarioId] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[productoId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/** Object:  Table [dbo].[proveedor]    
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[proveedor](
+	[proveedorId] [int] IDENTITY(1,1) NOT NULL,
+	[nameproveedor] [varchar](100) NOT NULL,
+	[contacto] [varchar](100) NOT NULL,
+	[direccion] [varchar](150) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[proveedorId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/** Object:  Table [dbo].[skuProducto]   
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[SkuProducto](
+	[skuId] [int] IDENTITY(1,1) NOT NULL,
+	[productoId] [int] NULL,
+	[codigosku] [varchar](100) NOT NULL,
+	[descripcion] [varchar](100) NOT NULL,
+	[precio] [decimal](10, 1) NOT NULL,
+	[stock] [int] NOT NULL,
+	[stockMinimo] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[skuId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/** Object:  Table [dbo].[usuario]   
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[usuario](
+	[usuarioId] [int] IDENTITY(1,1) NOT NULL,
+	[name] [varchar](100) NOT NULL,
+	[email] [varchar](100) NOT NULL,
+	[rol] [varchar](100) NOT NULL,
+	[password] [varchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[usuarioId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[categoria] ON 
+
+INSERT [dbo].[categoria] ([categoriaId], [namecategoria], [descripcioncategoria]) VALUES (1, N'Alimentos enlatados y abarrotes', N'Alimentos preparados')
+INSERT [dbo].[categoria] ([categoriaId], [namecategoria], [descripcioncategoria]) VALUES (2, N'Panaderia', N'Pan y botanas')
+INSERT [dbo].[categoria] ([categoriaId], [namecategoria], [descripcioncategoria]) VALUES (3, N'Bebidas', N'Gaseosas, agua')
+INSERT [dbo].[categoria] ([categoriaId], [namecategoria], [descripcioncategoria]) VALUES (4, N'Higiene Personal', N'Papel higienico, pasta de dientes, ect')
+INSERT [dbo].[categoria] ([categoriaId], [namecategoria], [descripcioncategoria]) VALUES (5, N'Limpieza del hogar', N'Detergentes')
+SET IDENTITY_INSERT [dbo].[categoria] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Productos] ON 
+
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (1, N'Salsa Herdez verde', N'330 ml', CAST(22.90 AS Decimal(10, 2)), 25, 2, 1, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (2, N'Sala Herdez Roja', N'330 ml', CAST(22.90 AS Decimal(10, 2)), 25, 2, 1, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (3, N'La costeña frijoles Negors', N'400 gr', CAST(19.90 AS Decimal(10, 2)), 20, 2, 1, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (4, N'La costeña jalapeños', N'230 ml', CAST(12.90 AS Decimal(10, 2)), 30, 2, 1, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (5, N'Doña Maria Mole Tradicional', N'100 ml', CAST(39.90 AS Decimal(10, 2)), 10, 2, 1, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (6, N'Herdez Meyonesa', N'355 ml', CAST(40.90 AS Decimal(10, 2)), 10, 2, 1, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (7, N'La Costeña Champiñones', N'230 ml', CAST(21.90 AS Decimal(10, 2)), 15, 2, 1, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (8, N'Herdez Chipotle', N'100 gr', CAST(19.90 AS Decimal(10, 2)), 11, 2, 1, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (9, N'La Costeña Elote Enlatado', N'255 gr', CAST(20.90 AS Decimal(10, 2)), 16, 2, 1, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (10, N'Pan Bimbo Blanco', N'400 gr', CAST(39.90 AS Decimal(10, 2)), 10, 2, 2, 2, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (11, N'Pan Integral Bimbo', N'400 gr', CAST(40.90 AS Decimal(10, 2)), 20, 2, 2, 2, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (12, N'Gansito Marinela', N'100 gr', CAST(18.90 AS Decimal(10, 2)), 20, 2, 2, 2, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (13, N'Pinguinos Marinela', N'100 gr', CAST(18.90 AS Decimal(10, 2)), 10, 2, 2, 2, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (14, N'Pan Tostado Bimbo', N'455 gr', CAST(40.90 AS Decimal(10, 2)), 13, 2, 2, 2, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (15, N'Chocolates Kraken', N'100 gr', CAST(21.90 AS Decimal(10, 2)), 15, 2, 2, 2, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (16, N'Rebanadas Marinela', N'50 gr', CAST(10.90 AS Decimal(10, 2)), 25, 2, 2, 2, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (17, N'Chocorroles Marinela', N'100 gr', CAST(20.90 AS Decimal(10, 2)), 16, 2, 2, 2, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (18, N'Pepsi', N'600 ml', CAST(18.90 AS Decimal(10, 2)), 10, 2, 3, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (19, N'Gatore Moras', N'600 ml', CAST(19.90 AS Decimal(10, 2)), 8, 2, 3, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (20, N'Sabritas Clasicas', N'235 gr', CAST(38.90 AS Decimal(10, 2)), 8, 2, 3, 2, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (21, N'Sabritas Limon', N'235 gr', CAST(38.90 AS Decimal(10, 2)), 10, 2, 3, 2, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (22, N'Doritos Nacho', N'235 gr', CAST(40.90 AS Decimal(10, 2)), 13, 2, 3, 2, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (23, N'Gamesa Galletas Maria', N'200 gr', CAST(29.90 AS Decimal(10, 2)), 10, 2, 3, 2, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (24, N'Pespi Black', N'2000 ml', CAST(29.90 AS Decimal(10, 2)), 10, 2, 3, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (25, N'Quaker Avena Instantanea', N'100 gr', CAST(20.90 AS Decimal(10, 2)), 16, 2, 3, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (26, N'Coca Cola', N'600 ml', CAST(19.90 AS Decimal(10, 2)), 15, 2, 4, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (27, N'Cola Cola Sin Azucar', N'600 ml', CAST(18.90 AS Decimal(10, 2)), 8, 2, 4, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (28, N'Fanta Naranja', N'3000 ml', CAST(38.90 AS Decimal(10, 2)), 10, 2, 4, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (29, N'Sprite', N'3000 ml', CAST(38.90 AS Decimal(10, 2)), 10, 2, 4, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (30, N'Ciel Natural', N'1000 ml', CAST(11.00 AS Decimal(10, 2)), 20, 2, 4, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (31, N'Jugo de Manzana del Valle', N'600 ml', CAST(19.90 AS Decimal(10, 2)), 10, 2, 4, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (32, N'Jugo de Mango del Valle', N'600 ml', CAST(19.90 AS Decimal(10, 2)), 11, 2, 4, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (33, N'Pawerade Azul', N'100 ml', CAST(20.90 AS Decimal(10, 2)), 15, 2, 4, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (34, N'Nescafé Clásico', N'300 ml', CAST(19.90 AS Decimal(10, 2)), 15, 2, 5, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (35, N'La Lechera Condensada', N'395 gr', CAST(24.50 AS Decimal(10, 2)), 12, 2, 5, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (36, N'Nesquik Chocolate', N'400 gr', CAST(45.90 AS Decimal(10, 2)), 8, 2, 5, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (37, N'Maggi Consomé', N'Caja con 6 cubos', CAST(15.75 AS Decimal(10, 2)), 20, 2, 5, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (38, N'Cereal Chocapic', N'500 gr', CAST(62.00 AS Decimal(10, 2)), 10, 2, 5, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (39, N'Cereal Zucaritas', N' 500 gr', CAST(62.00 AS Decimal(10, 2)), 10, 3, 5, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (40, N'Nido Kinder', N'400 gr', CAST(78.90 AS Decimal(10, 2)), 6, 2, 5, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (41, N'Cereal Corn Flakes', N'500 gr', CAST(58.50 AS Decimal(10, 2)), 8, 3, 5, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (42, N'Leche Nestlé en polvo', N'60 gr', CAST(85.00 AS Decimal(10, 2)), 5, 2, 5, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (43, N'Sopa Maggi', N'70 gr', CAST(12.90 AS Decimal(10, 2)), 25, 5, 5, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (44, N'Huggies Etapa 3', N'Pañales talla 3, 44 piezas', CAST(299.00 AS Decimal(10, 2)), 25, 5, 6, 4, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (45, N'Huggies Natural Care', N'Toallitas húmedas 80 piezas', CAST(89.90 AS Decimal(10, 2)), 30, 10, 6, 4, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (46, N'Kleenex Toallas faciales', N'Caja con 150 piezas', CAST(45.50 AS Decimal(10, 2)), 40, 15, 6, 4, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (47, N'Scott Papel Higiénico', N'Rollo doble 12 piezas', CAST(65.00 AS Decimal(10, 2)), 50, 20, 6, 4, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (48, N'Suavel Servitoallas', N'Paquete con 3 rollos', CAST(52.90 AS Decimal(10, 2)), 35, 12, 6, 4, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (49, N'Kleen Bebé Toallitas', N'Paquete 120 piezas', CAST(75.00 AS Decimal(10, 2)), 28, 10, 6, 4, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (50, N'Suavel Higiénico Grande', N'Rollo gigante 4 piezas', CAST(42.00 AS Decimal(10, 2)), 30, 8, 6, 4, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (51, N'Pañuelos Kleenex Pocket', N'Paquete 10 sobres', CAST(32.50 AS Decimal(10, 2)), 60, 25, 6, 4, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (52, N'Scott Rollo de cocina', N'Rollo 70 hojas', CAST(38.00 AS Decimal(10, 2)), 45, 15, 6, 4, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (53, N'Huggies Max', N'Pañales talla 4, 36 piezas', CAST(325.00 AS Decimal(10, 2)), 20, 5, 6, 4, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (54, N'Colgate Menta', N'Pasta dental 90 ml', CAST(28.50 AS Decimal(10, 2)), 50, 20, 7, 4, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (55, N'Palmolive Jabón Corporal', N'Jabón de baño 3 piezas', CAST(45.00 AS Decimal(10, 2)), 40, 15, 7, 4, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (56, N'Axion Limón', N'Detergente líquido 500 ml', CAST(32.90 AS Decimal(10, 2)), 35, 12, 7, 5, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (57, N'Suavitel Azul', N'Suavizante de ropa 1 L', CAST(42.00 AS Decimal(10, 2)), 30, 10, 7, 5, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (58, N'Fabuloso Lavanda', N'Limpiador multiusos 1 L', CAST(38.50 AS Decimal(10, 2)), 45, 15, 7, 5, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (59, N'Colgate Triple Acción', N'Pasta dental 150 ml', CAST(52.00 AS Decimal(10, 2)), 35, 12, 7, 4, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (60, N'Suavitel Fresca Primavera', N'Suavizante 2 L', CAST(78.00 AS Decimal(10, 2)), 25, 8, 7, 5, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (61, N'Palmolive Naturals', N'Jabón líquido 500 ml', CAST(56.90 AS Decimal(10, 2)), 30, 10, 7, 4, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (62, N'Axion Multiusos', N'Detergente en polvo 1 kg', CAST(65.00 AS Decimal(10, 2)), 28, 8, 7, 5, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (63, N'Colgate Kids', N'Pasta dental infantil 50 ml', CAST(34.90 AS Decimal(10, 2)), 40, 15, 7, 4, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (64, N'Knorr Caldo de Pollo', N'Caja con 6 cubos', CAST(18.90 AS Decimal(10, 2)), 60, 20, 8, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (65, N'Knorr Sopa Pasta', N'Sobre 70 gr', CAST(12.50 AS Decimal(10, 2)), 80, 30, 8, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (66, N'Maizena Vainilla', N'200 gr', CAST(24.90 AS Decimal(10, 2)), 45, 15, 8, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (67, N'Mayonesa Hellmanns', N'390 gr', CAST(42.00 AS Decimal(10, 2)), 35, 12, 8, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (68, N'Dove Jabón', N'Jabón de baño 3 piezas', CAST(65.00 AS Decimal(10, 2)), 50, 20, 8, 4, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (69, N'Rexona Antitranspirante', N'50 ml', CAST(58.90 AS Decimal(10, 2)), 40, 15, 8, 4, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (70, N'Knorr Consomé Vegetal', N'Caja con 6 cubos', CAST(19.90 AS Decimal(10, 2)), 55, 20, 8, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (71, N'Maizena Chocolate', N'200 gr', CAST(26.50 AS Decimal(10, 2)), 40, 15, 8, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (72, N'Dove Men Care', N'90 gr', CAST(72.00 AS Decimal(10, 2)), 30, 10, 8, 4, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (73, N'Knorr Salsa Lista', N'80 gr', CAST(15.90 AS Decimal(10, 2)), 70, 25, 8, 1, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (74, N'Jumex Manzana', N'1000 ml', CAST(24.90 AS Decimal(10, 2)), 30, 10, 9, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (75, N'Jumex Durazno', N'1000 ml', CAST(24.90 AS Decimal(10, 2)), 28, 10, 9, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (76, N'Jumex Mango', N'500 ml', CAST(18.50 AS Decimal(10, 2)), 35, 12, 9, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (77, N'Jumex Piña', N'1000 ml', CAST(24.90 AS Decimal(10, 2)), 25, 8, 9, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (78, N'Jumex Nectar Fresa', N'1000 ml', CAST(26.50 AS Decimal(10, 2)), 30, 10, 9, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (79, N'Jumex Uva', N'1000 ml', CAST(24.90 AS Decimal(10, 2)), 22, 8, 9, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (80, N'Jumex Zanahoria', N'1000 ml', CAST(27.90 AS Decimal(10, 2)), 20, 6, 9, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (81, N'Jumex Multifrutas', N'1000 ml', CAST(25.50 AS Decimal(10, 2)), 30, 10, 9, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (82, N'Jumex Granada', N'1000 ml', CAST(29.90 AS Decimal(10, 2)), 18, 5, 9, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (83, N'Jumex Guayaba', N'1000 ml', CAST(24.90 AS Decimal(10, 2)), 25, 8, 9, 3, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (84, N'Cloralex Desinfectante', N'1000 ml', CAST(42.90 AS Decimal(10, 2)), 40, 15, 10, 5, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (85, N'Pinol Multiusos', N'1000 ml', CAST(38.50 AS Decimal(10, 2)), 50, 20, 10, 5, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (86, N'Fabuloso Floral', N'1000 ml', CAST(45.00 AS Decimal(10, 2)), 35, 12, 10, 5, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (87, N'Ensueño Suavizante', N'1000 ml', CAST(52.00 AS Decimal(10, 2)), 30, 10, 10, 5, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (88, N'Lysol Aerosol', N'400 ml', CAST(89.90 AS Decimal(10, 2)), 25, 8, 10, 5, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (89, N'Cloralex Mascotas', N'750 ml', CAST(65.00 AS Decimal(10, 2)), 28, 8, 10, 5, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (90, N'Limpiador Mr. Músculo', N'500 ml', CAST(58.00 AS Decimal(10, 2)), 30, 10, 10, 5, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (91, N'Escoba triple acción', N'Escoba con recogedor', CAST(125.00 AS Decimal(10, 2)), 15, 5, 10, 5, 1)
+INSERT [dbo].[Productos] ([productoId], [nameproducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (92, N'Jabón Roma', N'Barra 150 gr', CAST(18.90 AS Decimal(10, 2)), 60, 25, 10, 5, 1)
+INSERT [dbo].[Productos] ([productoId], [nameProducto], [descripcion], [precio], [stock], [stockMinimo], [proveedorId], [categoriaId], [usuarioId]) VALUES (93, N'Guantes para limpieza', N'Par de guantes', CAST(32.00 AS Decimal(10, 2)), 40, 15, 10, 5, 1)
+SET IDENTITY_INSERT [dbo].[Productos] OFF
+GO
+SET IDENTITY_INSERT [dbo].[proveedor] ON 
+
+INSERT [dbo].[proveedor] ([proveedorId], [nameProveedor], [contacto], [direccion]) VALUES (1, N'Grupo Herdez', N'ventas@herdez.mx', N'Av. Salsas #110, Ciudad de Mexico')
+INSERT [dbo].[proveedor] ([proveedorId], [nameproveedor], [contacto], [direccion]) VALUES (2, N'Bimbo', N'contacto@bimbo.mx', N'Calle Pan #200, Toluca')
+INSERT [dbo].[Proveedor] ([proveedorId], [nameproveedor], [contacto], [direccion]) VALUES (3, N'PepsiCoMexico', N'pedidos@pepsico', N'Blvd. Botana #15, Monterrey')
+INSERT [dbo].[proveedor] ([proveedorId], [nameproveedor], [contacto], [direccion]) VALUES (4, N'Coca Cola FEMSA', N'servicio@cocacolafemsa.mx', N'Av. Refrescos #80, Guadalajara')
+INSERT [dbo].[proveedor] ([proveedorId], [nameproveedor], [contacto], [direccion]) VALUES (5, N'Nestlé México', N'clientes@nestle.mx', N'clientes@nestle.mx')
+INSERT [dbo].[proveedor] ([proveedorId], [nameproveedor], [contacto], [direccion]) VALUES (6, N'Kimberly-Clark México', N'atención@kimberly.mx', N'Blvd. Higiene #44, Ciudad Juárez')
+INSERT [dbo].[proveedor] ([proveedorId], [nameproveedor], [contacto], [direccion]) VALUES (7, N'Colgate-Palmolive México', N'contacto@colgate.mx', N'Av. Limpieza #98, Tijuana')
+INSERT [dbo].[proveedor] ([proveedorId], [nameproveedor], [contacto], [direccion]) VALUES (8, N'Unilever México', N'soporte@unilever.mx', N'Calle Sabores #75, Puebla')
+INSERT [dbo].[proveedor] ([proveedorId], [nameproveedor], [contacto], [direccion]) VALUES (9, N'Jumex', N'pedidos@jumex.mx', N'Carretera Frutas #123, Ecatepec')
+INSERT [dbo].[proveedor] ([proveedorId], [nameProveedor], [contacto], [direccion]) VALUES (10, N'Distribuidora LimpiaPlus', N'ventas@limpiaplus.mx', N'Av. Cloro #22, León, Guanajuato')
+SET IDENTITY_INSERT [dbo].[proveedor] OFF
+GO
+SET IDENTITY_INSERT [dbo].[usuario] ON 
+
+INSERT [dbo].[usuario] ([usuarioId], [name], [email], [rol], [password]) VALUES (1, N'Admin', N'example@gmail.com', N'Admimistrador', N'admin123')
+SET IDENTITY_INSERT [dbo].[Usuario] OFF
+GO
+ALTER TABLE [dbo].[alerta] ADD  DEFAULT ((0)) FOR [atendida]
+GO
+ALTER TABLE [dbo].[Productos] ADD  DEFAULT ((0)) FOR [stock]
+GO
+ALTER TABLE [dbo].[alerta]  WITH CHECK ADD FOREIGN KEY([usuarioId])
+REFERENCES [dbo].[usuario] ([usuarioId])
+GO
+ALTER TABLE [dbo].[movimiento]  WITH CHECK ADD FOREIGN KEY([productoId])
+REFERENCES [dbo].[Productos] ([productoId])
+GO
+ALTER TABLE [dbo].[movimiento]  WITH CHECK ADD FOREIGN KEY([proveedorId])
+REFERENCES [dbo].[proveedor] ([proveedorId])
+GO
+ALTER TABLE [dbo].[Productos]  WITH CHECK ADD FOREIGN KEY([categoriaId])
+REFERENCES [dbo].[categoria] ([categoriaId])
+GO
+ALTER TABLE [dbo].[Productos]  WITH CHECK ADD FOREIGN KEY([proveedorId])
+REFERENCES [dbo].[proveedor] ([proveedorId])
+GO
+ALTER TABLE [dbo].[Productos]  WITH CHECK ADD FOREIGN KEY([usuarioId])
+REFERENCES [dbo].usuario] ([usuarioId])
+GO
+ALTER TABLE [dbo].[skuProducto]  WITH CHECK ADD FOREIGN KEY([productoId])
+REFERENCES [dbo].[Productos] ([productoId])
+GO
