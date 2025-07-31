@@ -29,3 +29,4 @@ exports.deleteAlerta = async (req, res) => {
   await alerta.destroy();
   res.json({ msg: 'Alerta eliminada' });
 };
+
