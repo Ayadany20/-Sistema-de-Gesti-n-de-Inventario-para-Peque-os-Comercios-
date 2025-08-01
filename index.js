@@ -1,3 +1,19 @@
+const express = require('express');
+const cors = require('cors');
+const methodOverride = require('method-override');
+require('dotenv').config();
+const { sequelize } = require('./models');
+
+const app = express();
+
+// Middlewares
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // ← para leer datos de formularios
+app.use(methodOverride('_method')); // ← para soportar PUT y DELETE en formularios HTML
+
+// Importación de rutas
+const usuariosRoutes = require('./routes/usuario.routes');
 const productosRoutes = require('./routes/producto.routes');
 const categoriasRoutes = require('./routes/categoria.routes');
 const proveedoresRoutes = require('./routes/proveedor.routes');
