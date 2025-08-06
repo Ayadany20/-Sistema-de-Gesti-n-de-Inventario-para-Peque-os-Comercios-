@@ -1,0 +1,70 @@
+
+<%- include('partials/navbar') %>
+<%- include('partials/header') %>
+<%- include('partials/modalspos') %>
+<main style="flex: 1; padding: 2rem;">
+  <div class="columns is-vcentered mb-5">
+  <!-- Columna del título -->
+  <div class="column is-narrow">
+    <p class="title is-1 mb-0">Productos</p>
+  </div>
+
+  <!-- Columna del buscador y botones -->
+  <div class="column">
+    <div class="field is-grouped">
+      <div class="control is-expanded">
+        <input class="input is-small" type="text" placeholder="Buscar por nombre o categoría">
+      </div>
+      <div class="control">
+        <button class="button is-link is-small ml-1">Buscar</button>
+      </div>
+      <div class="control">
+        <button class="button is-light is-small ml-1">Limpiar</button>
+      </div>
+      <div class="control">
+        <button class="button is-success is-small ml-2"  onclick="mostrarFormularioagregar()"  style="width: 100px;">Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <table class="table is-fullwidth is-bordered is-hoverable">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Descripcion</th>
+        <th>Categoria</th>
+        <th>Stock</th>
+        <th>Proveedor</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Productos desde la base de datos -->
+      <% if (productos && productos.length > 0) { %>
+        <% productos.forEach(producto => { %>
+          <tr>
+            <td><%= producto.productoId %></td>
+            <td><%= producto.nameProducto %></td>
+            <td><%= producto.descripcion || 'Sin descripción' %></td>
+            <td><%= producto.Categoria ? producto.Categoria.namecategoria : 'Sin categoría' %></td>
+            <td><%= producto.stock %></td>
+            <td><%= producto.Proveedor ? producto.Proveedor.nameproveedor : 'Sin proveedor' %></td>
+            <td>
+              <button class="button is-small is-info" onclick="mostrarFormularioEdicion(<%= producto.productoId %>)">Editar</button>
+              <button class="button is-small is-danger" onclick="confirmarEliminar(<%= producto.productoId %>)">Eliminar</button>
+            </td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="7" class="has-text-centered">No hay productos registrados</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+
+</main>
+
+<%- include('partials/footer') %>

@@ -1,4 +1,4 @@
-USE [Inventario]
+/* [Inventario]
 GO
 – Object:  Table [dbo].[alerta]    
 SET ANSI_NULLS ON

@@ -29,4 +29,3 @@ exports.deleteSku = async (req, res) => {
   await sku.destroy();
   res.json({ msg: 'Eliminado' });
 };
-

@@ -1,0 +1,56 @@
+
+  <!-- views/partials/header.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Estilos de Bulma y personalizados -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="has-background-white-bis has-text-black" style="display: flex; flex-direction: column; min-height: 100vh;">
+<!-- Cuadro de mensaje acercaa de  -->
+<div id="mensaje-acerca" class="box" style="
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2000;
+  width: 400px;
+  max-width: 90%;
+  text-align: center;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+">
+  <!-- Botón cerrar -->
+  <button class="delete" style="position: absolute; top: 10px; right: 10px;" onclick="cerrarMensajeAcerca()"></button>
+  
+  <!-- Imagen/logo -->
+  <figure class="image is-64x64" style="margin: 0 auto 1rem;">
+    <img src="/css/img/SMARTORYS.png" alt="Logo">
+  </figure>
+  
+  <!-- Texto del mensaje -->
+  <p style="text-align: justify;">
+    <strong>Smartory</strong> es una solución de inventario inteligente diseñada para ayudarte a tener un mejor control de tu negocio.
+    Optimiza tus procesos, mejora tu eficiencia y mantén un registro preciso de tus productos. Esta herramienta fue desarrollada por el equipo <strong>Software Team</strong> como parte de una propuesta innovadora para el manejo de inventarios.
+  </p>
+</div>
+
+<!-- Funciones JS -->
+<script>
+  function mostrarMensajeAcerca() {
+    document.getElementById('mensaje-acerca').style.display = 'block';
+  }
+
+  function cerrarMensajeAcerca() {
+    document.getElementById('mensaje-acerca').style.display = 'none';
+  }
+</script>
+
+
+</body>

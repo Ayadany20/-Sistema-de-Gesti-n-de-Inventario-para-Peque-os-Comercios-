@@ -1,0 +1,60 @@
+<!-- Editar perfil -->
+ <body class="has-background-white-bis has-text-black" style="display: flex; flex-direction: column; min-height: 100vh;">
+<div id="modal-editarper" class="box" style="
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2000;
+  width: 400px;
+  max-width: 90%;
+  text-align: left;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  background-color: white;
+">
+  <!-- Botón cerrar en la x  -->
+  <button class="delete" style="position: absolute; top: 10px; right: 10px;" onclick="cerrarFormularioEditarper()"></button>
+  <h3 class="title is-4">Editar Perfil</h3>
+   <form id="form-editar">
+    <div class="field">
+      <label class="label">Nombre</label>
+      <div class="control">
+        <input class="input" type="text" id="nombre-usuario" placeholder="Nombre ">
+      </div>
+    </div>
+     <div class="field">
+      <label class="label">Correo electrónico</label>
+      <div class="control">
+        <input class="input" type="text" id="correo-usuario" placeholder="Correo electrónico">
+      </div>
+    </div>
+    <!-- Botones -->
+    <div class="field is-grouped is-justify-content-end" style="margin-top: 1rem;">
+      <p class="control">
+        <button type="submit" class="button is-success">Guardar</button>
+      </p>
+      <p class="control">
+        <button type="button" class="button is-light" onclick="cerrarFormularioEditarper()">Cancelar</button>
+      </p>
+    </div>
+  </form>
+</div>
+<!-- Jspara abrir y cerrar -->
+<script>
+  function mostrarFormularioEditarper() {
+    document.getElementById('modal-editarper').style.display = 'block';
+  }
+  function cerrarFormularioEditarper() {
+    document.getElementById('modal-editarper').style.display = 'none';
+  }
+  //  lógica de "guardar" 
+  document.getElementById('form-editarper').addEventListener('submit', function (e) {
+    e.preventDefault();
+    //  enviar los datos 
+    alert('Producto guardado (simulado)');
+    cerrarFormularioEditarp();
+  });
+</script>
+ </body>

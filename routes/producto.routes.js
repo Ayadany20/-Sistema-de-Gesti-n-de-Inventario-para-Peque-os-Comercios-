@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/producto.controller');
+const { Producto } = require('../models');
+
+//vistas
+router.get('/views/productos', controller.renderProductosVista);
 
 router.get('/', controller.getProductos);
 router.get('/:id', controller.getProductoById);

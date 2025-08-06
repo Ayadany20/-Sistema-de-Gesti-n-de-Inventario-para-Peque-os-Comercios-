@@ -29,4 +29,3 @@ exports.deleteProveedor = async (req, res) => {
   await proveedor.destroy();
   res.json({ msg: 'Eliminado' });
 };
-

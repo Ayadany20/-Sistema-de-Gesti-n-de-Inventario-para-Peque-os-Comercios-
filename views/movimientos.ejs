@@ -1,0 +1,72 @@
+<!--Movimientos.ejs -->
+<%- include ('partials/navbar')%>
+<%- include('partials/header') %>
+
+ <main style="flex: 1;">
+<section class="section">
+  <div class="container">
+
+    <!-- Título y Filtro -->
+    <div class="columns is-vcentered is-mobile mb-5">
+      <div class="column is-8">
+        <h1 class="title is-2">Movimientos</h1>
+      </div>
+      <div class="column is-4 has-text-right">
+        <div class="field is-grouped is-justify-content-flex-end">
+          <label class="label mr-2 mt-2">Filtrar por fecha</label>
+          <div class="control">
+            <input class="input" type="date" id="filterDate">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenedor dinámico de movimientos  -->
+    <div id="movimientosPorFecha">
+
+      <!--ejemplo: 08-07-2025 -->
+      <div class="mb-6">
+        <p class="has-text-weight-bold mb-3">08-07-2025</p>
+
+        <!-- Movimiento 1 -->
+        <div class="box mb-3">
+          <p><strong>Tipo:</strong> Entrada</p>
+          <p><strong>Producto:</strong> Jeringas</p>
+          <p><strong>Proveedor:</strong> MedSupply</p>
+          <p><strong>Cantidad:</strong> 500</p>
+          <p><strong>Precio:</strong> $1,500.00</p>
+          <p><strong>Fecha:</strong> 08-07-2025</p>
+        </div>
+
+        <!-- Movimiento 2 -->
+        <div class="box mb-3">
+          <p><strong>Tipo:</strong> Salida</p>
+          <p><strong>Producto:</strong> Guantes</p>
+          <p><strong>Proveedor:</strong> BioMed</p>
+          <p><strong>Cantidad:</strong> 300</p>
+          <p><strong>Precio:</strong> $900.00</p>
+          <p><strong>Fecha:</strong> 08-07-2025</p>
+        </div>
+      </div>
+
+      <!-- ejemplo: 07-07-2025 -->
+      <div class="mb-6">
+        <p class="has-text-weight-bold mb-3">07-07-2025</p>
+
+        <!-- Movimiento 1 -->
+        <div class="box mb-3">
+          <p><strong>Tipo:</strong> Entrada</p>
+          <p><strong>Producto:</strong> Cubrebocas</p>
+          <p><strong>Proveedor:</strong> SafeHealth</p>
+          <p><strong>Cantidad:</strong> 1000</p>
+          <p><strong>Precio:</strong> $2,000.00</p>
+          <p><strong>Fecha:</strong> 07-07-2025</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+ </main>
+ 
+<%- include('partials/footer') %>

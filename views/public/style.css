@@ -1,0 +1,23 @@
+.navbar {
+  margin-bottom: 0 !important;
+}
+body {
+  padding-bottom: 3rem; /* Espacio para que el footer no tape el contenido */
+  background-color: #111;
+  color: white;
+  font-family: Arial, sans-serif;
+   margin: 0;
+  padding: 0;
+}
+
+h1 {
+  color: black;
+  font-size: o.9em;
+}
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #111;
+  color: #aaa;
+  font-size: 0.9em;
+}

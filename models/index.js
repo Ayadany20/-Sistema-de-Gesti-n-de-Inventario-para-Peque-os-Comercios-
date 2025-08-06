@@ -2,7 +2,7 @@
 
 const sequelize = require('../config/db');
 
-const Usuario = require('./usuario.model');
+const Usuario = require('./Usuario.model');
 const Producto = require('./producto.model');
 const Categoria = require('./categoria.model');
 const Proveedor = require('./proveedor.model');
@@ -20,7 +20,6 @@ SkuProducto.belongsTo(Producto, { foreignKey: 'productoId' });
 Movimiento.belongsTo(Producto, { foreignKey: 'productoId' });
 Movimiento.belongsTo(Proveedor, { foreignKey: 'proveedorId' });
 
-Alerta.belongsTo(Producto, { foreignKey: 'productoId' });
 Alerta.belongsTo(Usuario, { foreignKey: 'usuarioId' });
 
 module.exports = {

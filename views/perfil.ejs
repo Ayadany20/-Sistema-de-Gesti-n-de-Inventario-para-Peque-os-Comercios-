@@ -1,0 +1,52 @@
+<!-- Perfil .ejs -->
+ <%- include ('partials/navbar')%>
+ <%- include('partials/header') %>
+ <%- include('partials/modalsper') %>
+<main class="section" style="flex: 1; position: relative; min-height: 400px;">
+  <div class="container">
+    <h1 class="title is-3 has-text-centered">Perfil de usuario</h1>
+
+    <div class="columns is-vcentered mt-6">
+      <!-- Imagen y nombre -->
+      <div class="column is-one-third has-text-centered">
+        <figure class="image is-128x128 is-inline-block">
+          <img class="is-rounded" src="/css/img/perfil.png" alt="Foto de perfil">
+        </figure>
+        <p class="is-size-5 has-text-weight-bold mt-3">Usuario</p>
+        <p class="is-size-6">Rol</p>
+      </div>
+
+      <!-- Información del perfil -->
+      <div class="column">
+        <div class="box">
+          <p class="is-size-5 mb-4">
+            <strong>Nombre completo:</strong> Nombre Apellido
+          </p>
+          <p class="is-size-5 mb-4">
+            <strong>Correo electrónico:</strong> correo@ejemplo.com
+          </p>
+          <p class="is-size-5 mb-4">
+            <strong>Rol:</strong> Administrador
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor footer -->
+  <div style="position: absolute; bottom: 2.5rem; left: 0; right: 0;">
+    <!-- Botón centrado -->
+    <div style="text-align: center; margin-bottom: 0.5rem;">
+      <a class="button is-link is-medium" onclick="mostrarFormularioEditarper()">Editar perfil</a>
+    </div>
+
+    <!-- Puntos abajo a la derecha -->
+    <div style="position: absolute; bottom: .5rem; right: 3rem;">
+      <span class="icon has-text-link" style="font-size: 3rem;">●</span>
+      <span class="icon has-text-link" style="font-size: 3rem;">●</span>
+      <span class="icon has-text-link" style="font-size: 3rem;">●</span>
+    </div>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

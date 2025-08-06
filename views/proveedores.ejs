@@ -1,0 +1,59 @@
+<!-- proveedores.ejs -->
+ <%- include ('partials/navbar')%>
+ <%- include('partials/header') %>
+<%- include('partials/modalspres') %>
+ <main style="flex: 1; padding: 2rem;">
+  <div class="columns is-vcentered mb-5">
+  <!-- Columna del título -->
+  <div class="column is-narrow">
+    <p class="title is-1 mb-0">Proveedores</p>
+  </div>
+
+  <!-- Columna del buscador y botones -->
+   <!-- Columna del buscador y botones -->
+  <div class="column">
+    <div class="field is-grouped">
+      <div class="control is-expanded">
+        <input class="input is-small" type="text" placeholder="Buscar por nombre">
+      </div>
+      <div class="control">
+        <button class="button is-link is-small ml-1">Buscar</button>
+      </div>
+      <div class="control">
+        <button class="button is-light is-small ml-1">Limpiar</button>
+      </div>
+      <div class="control">
+        <button class="button is-success is-small ml-2"  onclick="mostrarFormularioagrega()"  style="width: 100px;">Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <table class="table is-fullwidth is-bordered is-hoverable">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Contacto</th>
+        <th>Dirección</th>
+        <th>Productos</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Aquí irán los productos desde la base de datos -->
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+          <button class="button is-small is-info"  onclick="mostrarFormularioEditar()" >Editar</button>
+          <button class="button is-small is-danger" onclick="confirmarEliminarr()">Eliminar</button>
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>
+</main>
+
+<%- include('partials/footer') %>
