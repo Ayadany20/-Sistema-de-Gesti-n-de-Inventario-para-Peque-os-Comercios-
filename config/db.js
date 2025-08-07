@@ -1,11 +1,11 @@
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('Inventario', 'inventario_user', 'Gestor1234', {
-  host: 'LUIS18',
+const sequelize = new Sequelize('Inventario', '*****', '*****', {
+  host: '****',
   dialect: 'mssql',
   dialectOptions: {
     options: {
-      instanceName: 'LUISSQLSERVER',
+      instanceName: '******',
       encrypt: false,
       trustServerCertificate: true,
     }
