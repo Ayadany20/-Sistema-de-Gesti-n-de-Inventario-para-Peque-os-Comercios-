@@ -33,21 +33,40 @@
         </div>
       </div>
 
-      <!-- Alerta 1 -->
-      <div class="box alerta-item mb-4">
-        <div class="is-flex is-align-items-center is-justify-content-space-between">
-          <button class="delete mr-3" aria-label="eliminar"></button>
+      <!-- Alertas desde la base de datos -->
+      <% if (typeof alertas !== 'undefined' && alertas && alertas.length > 0) { %>
+        <% alertas.forEach((alerta, index) => { %>
+          <div class="box alerta-item mb-4">
+            <div class="is-flex is-align-items-center is-justify-content-space-between">
+              <button class="delete mr-3" aria-label="eliminar" onclick="eliminarAlerta(<%= alerta.alertaId %>)"></button>
 
-          <div class="alerta-titulo has-background-white-ter p-2 has-text-weight-semibold is-clickable mr-3">
-            Alerta Producto 1
-          </div>
+              <div class="alerta-titulo has-background-white-ter p-2 has-text-weight-semibold is-clickable mr-3" onclick="toggleDetalle(<%= index %>)">
+                <%= alerta.titulo || 'Alerta sin título' %>
+              </div>
 
-          <div class="field">
-            <input type="checkbox" class="checkbox marcarFinalizada">
+              <div class="field">
+                <input type="checkbox" class="checkbox marcarFinalizada" <%= alerta.estado === 'finalizada' ? 'checked' : '' %> onchange="cambiarEstado(<%= alerta.alertaId %>, this.checked)">
+              </div>
+            </div>
+
+            <div class="detalle-alerta is-hidden mt-3" id="detalle-<%= index %>">
+              <p><strong>Descripción:</strong> <%= alerta.descripcion || 'Sin descripción' %></p>
+              <p><strong>Tipo:</strong> <%= alerta.tipoAlerta || 'General' %></p>
+              <p><strong>Estado:</strong> 
+                <span class="tag <%= alerta.estado === 'finalizada' ? 'is-success' : 'is-warning' %>">
+                  <%= alerta.estado === 'finalizada' ? 'Finalizada' : 'Pendiente' %>
+                </span>
+              </p>
+              <p><strong>Usuario:</strong> <%= alerta.Usuario ? alerta.Usuario.nombre : 'Sin usuario' %></p>
+              <p><strong>Fecha de creación:</strong> <%= new Date(alerta.fechaCreacion).toLocaleString('es-ES') %></p>
+            </div>
           </div>
+        <% }) %>
+      <% } else { %>
+        <div class="box has-text-centered">
+          <p class="has-text-grey">No hay alertas registradas</p>
         </div>
-
-        <div class="detalle-alerta is-hidden mt-3">
+      <% } %>
           <p><strong>Producto:</strong> Jeringas</p>
           <p><strong>Fecha:</strong> 08-07-2025</p>
           <p><strong>Mensaje:</strong> Nivel bajo de inventario</p>

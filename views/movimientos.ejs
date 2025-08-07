@@ -24,30 +24,41 @@
     <!-- Contenedor dinámico de movimientos  -->
     <div id="movimientosPorFecha">
 
-      <!--ejemplo: 08-07-2025 -->
-      <div class="mb-6">
-        <p class="has-text-weight-bold mb-3">08-07-2025</p>
-
-        <!-- Movimiento 1 -->
-        <div class="box mb-3">
-          <p><strong>Tipo:</strong> Entrada</p>
-          <p><strong>Producto:</strong> Jeringas</p>
-          <p><strong>Proveedor:</strong> MedSupply</p>
-          <p><strong>Cantidad:</strong> 500</p>
-          <p><strong>Precio:</strong> $1,500.00</p>
-          <p><strong>Fecha:</strong> 08-07-2025</p>
+      <!-- Movimientos desde la base de datos -->
+      <% if (typeof movimientos !== 'undefined' && movimientos && movimientos.length > 0) { %>
+        <% 
+        // Agrupar movimientos por fecha
+        const movimientosPorFecha = {};
+        movimientos.forEach(movimiento => {
+          const fecha = new Date(movimiento.fecha).toLocaleDateString('es-ES');
+          if (!movimientosPorFecha[fecha]) {
+            movimientosPorFecha[fecha] = [];
+          }
+          movimientosPorFecha[fecha].push(movimiento);
+        });
+        %>
+        
+        <% Object.keys(movimientosPorFecha).forEach(fecha => { %>
+          <div class="mb-6">
+            <p class="has-text-weight-bold mb-3"><%= fecha %></p>
+            
+            <% movimientosPorFecha[fecha].forEach(movimiento => { %>
+              <div class="box mb-3">
+                <p><strong>Tipo:</strong> <%= movimiento.tipoMovimiento %></p>
+                <p><strong>Producto:</strong> <%= movimiento.Producto ? movimiento.Producto.nameProducto : 'Sin producto' %></p>
+                <p><strong>Proveedor:</strong> <%= movimiento.Proveedor ? movimiento.Proveedor.nameproveedor : 'Sin proveedor' %></p>
+                <p><strong>Cantidad:</strong> <%= movimiento.cantidad %></p>
+                <p><strong>Precio:</strong> $<%= movimiento.precio ? movimiento.precio.toLocaleString() : '0' %></p>
+                <p><strong>Fecha:</strong> <%= new Date(movimiento.fecha).toLocaleDateString('es-ES') %></p>
+              </div>
+            <% }) %>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <div class="box has-text-centered">
+          <p class="has-text-grey">No hay movimientos registrados</p>
         </div>
-
-        <!-- Movimiento 2 -->
-        <div class="box mb-3">
-          <p><strong>Tipo:</strong> Salida</p>
-          <p><strong>Producto:</strong> Guantes</p>
-          <p><strong>Proveedor:</strong> BioMed</p>
-          <p><strong>Cantidad:</strong> 300</p>
-          <p><strong>Precio:</strong> $900.00</p>
-          <p><strong>Fecha:</strong> 08-07-2025</p>
-        </div>
-      </div>
+      <% } %>
 
       <!-- ejemplo: 07-07-2025 -->
       <div class="mb-6">

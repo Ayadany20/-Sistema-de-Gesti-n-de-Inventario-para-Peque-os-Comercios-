@@ -20,24 +20,24 @@
 
   <h3 class="title is-4">Agregar Proveedor + </h3>
   
-  <form id="form-editar">
+  <form id="form-agregar">
     <div class="field">
       <label class="label">Nombre</label>
       <div class="control">
-        <input class="input" type="text" id="nombre-proveedor" placeholder="Nombre ">
+        <input class="input" type="text" id="nombre-proveedor" name="nameproveedor" placeholder="Nombre" required>
       </div>
     </div>
      <div class="field">
       <label class="label">Contacto</label>
       <div class="control">
-        <input class="input" type="text" id="contacto-proveedor" placeholder="Contacto">
+        <input class="input" type="text" id="contacto-proveedor" name="contacto" placeholder="Contacto">
       </div>
     </div>
 
     <div class="field">
       <label class="label">Dirección</label>
       <div class="control">
-        <input class="input" type="text" id="direccion-proveedor" placeholder="Dirección">
+        <input class="input" type="text" id="direccion-proveedor" name="direccion" placeholder="Dirección">
       </div>
     </div>
     <!-- Botones -->
@@ -59,14 +59,44 @@
 
   function cerrarFormularioagrega() {
     document.getElementById('modal-agregar').style.display = 'none';
+    // Limpiar el formulario
+    document.getElementById('form-agregar').reset();
   }
 
-  //  lógica de "guardar" 
-  document.getElementById('form-guardar').addEventListener('submit', function (e) {
+  // Manejar el envío del formulario de agregar proveedor
+  document.getElementById('form-agregar').addEventListener('submit', function (e) {
     e.preventDefault();
-    //  enviar los datos 
-    alert('Producto guardado (simulado)');
-    cerrarFormularioagrega();
+    
+    // Obtener los datos del formulario
+    const formData = {
+      nameproveedor: document.getElementById('nombre-proveedor').value,
+      contacto: document.getElementById('contacto-proveedor').value,
+      direccion: document.getElementById('direccion-proveedor').value
+    };
+
+    // Enviar los datos al servidor
+    fetch('/api/proveedores', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) {
+        alert('Error: ' + data.error);
+      } else {
+        alert('Proveedor agregado exitosamente');
+        cerrarFormularioagrega();
+        // Recargar la página para mostrar el nuevo proveedor
+        location.reload();
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Error al agregar el proveedor');
+    });
   });
 </script>
 <!-- Editar -->
@@ -90,23 +120,25 @@
   <h3 class="title is-4">Editar Proveedor</h3>
   
    <form id="form-editar">
+    <input type="hidden" id="edit-proveedor-id" name="id">
+    
     <div class="field">
       <label class="label">Nombre</label>
       <div class="control">
-        <input class="input" type="text" id="nombre-proveedor" placeholder="Nombre ">
+        <input class="input" type="text" id="edit-nombre-proveedor" name="nameproveedor" placeholder="Nombre" required>
       </div>
     </div>
      <div class="field">
       <label class="label">Contacto</label>
       <div class="control">
-        <input class="input" type="text" id="contacto-proveedor" placeholder="Contacto">
+        <input class="input" type="text" id="edit-contacto-proveedor" name="contacto" placeholder="Contacto">
       </div>
     </div>
 
     <div class="field">
       <label class="label">Dirección</label>
       <div class="control">
-        <input class="input" type="text" id="direccion-proveedor" placeholder="Dirección">
+        <input class="input" type="text" id="edit-direccion-proveedor" name="direccion" placeholder="Dirección">
       </div>
     </div>
 
@@ -121,22 +153,74 @@
     </div>
   </form>
 </div>
-<!-- Jspara abrir y cerrar -->
+<!-- JS para abrir y cerrar edición -->
 <script>
-  function mostrarFormularioEditar() {
-    document.getElementById('modal-editar').style.display = 'block';
+  let idProveedorAEditar = null;
+
+  function mostrarFormularioEditar(id) {
+    idProveedorAEditar = id;
+    
+    // Obtener los datos del proveedor
+    fetch(`/api/proveedores/${id}`)
+      .then(response => response.json())
+      .then(proveedor => {
+        // Llenar el formulario con los datos del proveedor
+        document.getElementById('edit-proveedor-id').value = proveedor.proveedorId;
+        document.getElementById('edit-nombre-proveedor').value = proveedor.nameproveedor;
+        document.getElementById('edit-contacto-proveedor').value = proveedor.contacto || '';
+        document.getElementById('edit-direccion-proveedor').value = proveedor.direccion || '';
+        
+        // Mostrar el modal
+        document.getElementById('modal-editar').style.display = 'block';
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error al cargar los datos del proveedor');
+      });
   }
 
   function cerrarFormularioEditar() {
     document.getElementById('modal-editar').style.display = 'none';
+    idProveedorAEditar = null;
+    document.getElementById('form-editar').reset();
   }
 
-  //  lógica de "guardar" 
+  // Manejar el envío del formulario de edición
   document.getElementById('form-editar').addEventListener('submit', function (e) {
     e.preventDefault();
-    //  enviar los datos 
-    alert('Producto guardado (simulado)');
-    cerrarFormularioEditar();
+    
+    if (!idProveedorAEditar) return;
+    
+    // Obtener los datos del formulario
+    const formData = {
+      nameproveedor: document.getElementById('edit-nombre-proveedor').value,
+      contacto: document.getElementById('edit-contacto-proveedor').value,
+      direccion: document.getElementById('edit-direccion-proveedor').value
+    };
+
+    // Enviar los datos al servidor
+    fetch(`/api/proveedores/${idProveedorAEditar}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) {
+        alert('Error: ' + data.error);
+      } else {
+        alert('Proveedor actualizado exitosamente');
+        cerrarFormularioEditar();
+        // Recargar la página para mostrar los cambios
+        location.reload();
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Error al actualizar el proveedor');
+    });
   });
 </script>
 <!-- Modal de eliminación -->
@@ -174,8 +258,28 @@
 
   document.getElementById('btn-confirmar-eliminar').addEventListener('click', () => {
     if (idAEliminar) {
-      // Redirige a la ruta de eliminación (ajusta si es diferente en tu app)
-      window.location.href = `/eliminar/${idAEliminar}`;
+      // Eliminar proveedor usando la API
+      fetch(`/api/proveedores/${idAEliminar}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          alert('Error: ' + data.error);
+        } else {
+          alert('Proveedor eliminado exitosamente');
+          cerrarConfirmacionn();
+          // Recargar la página para actualizar la lista
+          location.reload();
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error al eliminar el proveedor');
+      });
     }
   });
 </script>

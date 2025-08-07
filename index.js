@@ -43,11 +43,14 @@ app.use('/api/alertas', alertasRoutes);
 
 //rutas vistas
 const productoController = require('./controllers/producto.controller');
+const proveedorController = require('./controllers/proveedor.controller');
+const movimientoController = require('./controllers/movimiento.controller');
+const alertaController = require('./controllers/alerta.controller');
+
 app.get('/productos', productoController.renderProductosVista);
-app.get('/categorias', (req, res) => res.render('categorias'));
-app.get('/proveedores', (req, res) => res.render('proveedores'));
-app.get('/movimientos', (req, res) => res.render('movimientos'));
-app.get('/alertas', (req, res) => res.render('alertas'));
+app.get('/proveedores', proveedorController.renderProveedoresVista);
+app.get('/movimientos', movimientoController.renderMovimientosVista);
+app.get('/alertas', alertaController.renderAlertasVista);
 app.get('/info', (req, res) => res.render('info'));
 app.get('/usuarios', (req, res) => res.render('usuarios'));
 

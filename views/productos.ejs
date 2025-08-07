@@ -13,13 +13,13 @@
   <div class="column">
     <div class="field is-grouped">
       <div class="control is-expanded">
-        <input class="input is-small" type="text" placeholder="Buscar por nombre o categoría">
+        <input class="input is-small" type="text" id="buscar-input" placeholder="Buscar por nombre o categoría">
       </div>
       <div class="control">
-        <button class="button is-link is-small ml-1">Buscar</button>
+        <button class="button is-link is-small ml-1" id="btn-buscar">Buscar</button>
       </div>
       <div class="control">
-        <button class="button is-light is-small ml-1">Limpiar</button>
+        <button class="button is-light is-small ml-1" id="btn-limpiar">Limpiar</button>
       </div>
       <div class="control">
         <button class="button is-success is-small ml-2"  onclick="mostrarFormularioagregar()"  style="width: 100px;">Agregar</button>
@@ -28,7 +28,7 @@
   </div>
 </div>
 
-  <table class="table is-fullwidth is-bordered is-hoverable">
+  <table class="table is-fullwidth is-bordered is-hoverable" id="tabla-productos">
     <thead>
       <tr>
         <th>Id</th>
@@ -40,11 +40,11 @@
         <th>Acciones</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="tbody-productos">
       <!-- Productos desde la base de datos -->
       <% if (productos && productos.length > 0) { %>
         <% productos.forEach(producto => { %>
-          <tr>
+          <tr class="producto-row" data-nombre="<%= producto.nameProducto.toLowerCase() %>" data-categoria="<%= producto.Categoria ? producto.Categoria.namecategoria.toLowerCase() : '' %>">
             <td><%= producto.productoId %></td>
             <td><%= producto.nameProducto %></td>
             <td><%= producto.descripcion || 'Sin descripción' %></td>
@@ -58,12 +58,78 @@
           </tr>
         <% }) %>
       <% } else { %>
-        <tr>
+        <tr id="no-productos">
           <td colspan="7" class="has-text-centered">No hay productos registrados</td>
         </tr>
       <% } %>
+      <!-- Fila para mostrar cuando no hay resultados de búsqueda -->
+      <tr id="no-resultados" style="display: none;">
+        <td colspan="7" class="has-text-centered">No se encontraron productos que coincidan con la búsqueda</td>
+      </tr>
     </tbody>
   </table>
+
+<!-- JavaScript para el buscador -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const inputBuscar = document.getElementById('buscar-input');
+  const btnBuscar = document.getElementById('btn-buscar');
+  const btnLimpiar = document.getElementById('btn-limpiar');
+  const filasProductos = document.querySelectorAll('.producto-row');
+  const noResultados = document.getElementById('no-resultados');
+  const noProductos = document.getElementById('no-productos');
+
+  function filtrarProductos() {
+    const termino = inputBuscar.value.toLowerCase().trim();
+    let productosVisibles = 0;
+
+    filasProductos.forEach(fila => {
+      const nombre = fila.getAttribute('data-nombre');
+      const categoria = fila.getAttribute('data-categoria');
+      
+      if (nombre.includes(termino) || categoria.includes(termino)) {
+        fila.style.display = '';
+        productosVisibles++;
+      } else {
+        fila.style.display = 'none';
+      }
+    });
+
+    // Mostrar/ocultar mensaje de no resultados
+    if (productosVisibles === 0 && filasProductos.length > 0) {
+      noResultados.style.display = '';
+      if (noProductos) noProductos.style.display = 'none';
+    } else {
+      noResultados.style.display = 'none';
+      if (noProductos && filasProductos.length === 0) noProductos.style.display = '';
+    }
+  }
+
+  function limpiarBusqueda() {
+    inputBuscar.value = '';
+    filasProductos.forEach(fila => {
+      fila.style.display = '';
+    });
+    noResultados.style.display = 'none';
+    if (noProductos && filasProductos.length === 0) noProductos.style.display = '';
+  }
+
+  // Eventos
+  btnBuscar.addEventListener('click', filtrarProductos);
+  btnLimpiar.addEventListener('click', limpiarBusqueda);
+  
+  // Buscar mientras se escribe
+  inputBuscar.addEventListener('input', filtrarProductos);
+  
+  // Buscar al presionar Enter
+  inputBuscar.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      filtrarProductos();
+    }
+  });
+});
+</script>
 
 </main>
 

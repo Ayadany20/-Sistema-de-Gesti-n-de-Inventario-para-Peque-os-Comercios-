@@ -1,4 +1,25 @@
-const { Movimiento } = require('../models');
+const { Movimiento, Producto, Proveedor } = require('../models');
+
+exports.renderMovimientosVista = async (req, res) => {
+  try {
+    const movimientos = await Movimiento.findAll({
+      include: [
+        { model: Producto, as: 'Producto' },
+        { model: Proveedor, as: 'Proveedor' }
+      ],
+      order: [['fecha', 'DESC']]
+    });
+    res.render('movimientos', { 
+      movimientos: movimientos || []
+    });
+  } catch (error) {
+    console.error('Error al cargar movimientos:', error);
+    res.status(500).render('movimientos', { 
+      movimientos: [],
+      error: 'Error al cargar los datos'
+    });
+  }
+};
 
 exports.getMovimientos = async (req, res) => {
   try {

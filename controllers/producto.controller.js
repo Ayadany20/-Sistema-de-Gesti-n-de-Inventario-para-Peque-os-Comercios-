@@ -4,7 +4,12 @@ const { Op } = require('sequelize');
 exports.renderProductosVista = async (req, res) => {
   try {
     const [productos, categorias, proveedores] = await Promise.all([
-      Producto.findAll({ include: [Categoria, Proveedor] }),
+      Producto.findAll({ 
+        include: [
+          { model: Categoria, as: 'Categoria' },
+          { model: Proveedor, as: 'Proveedor' }
+        ] 
+      }),
       Categoria.findAll(),
       Proveedor.findAll()
     ]);
@@ -26,7 +31,12 @@ exports.renderProductosVista = async (req, res) => {
 
 exports.getAll= async (req, res) => {
   try {
-    const productos = await Producto.findAll({ include: [Categoria, Proveedor] });
+    const productos = await Producto.findAll({ 
+      include: [
+        { model: Categoria, as: 'Categoria' },
+        { model: Proveedor, as: 'Proveedor' }
+      ] 
+    });
     res.json(productos);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener los productos' });
@@ -35,7 +45,12 @@ exports.getAll= async (req, res) => {
 
 exports.getProductos = async (req, res) => {
   try {
-    const productos = await Producto.findAll({ include: [Categoria, Proveedor] });
+    const productos = await Producto.findAll({ 
+      include: [
+        { model: Categoria, as: 'Categoria' },
+        { model: Proveedor, as: 'Proveedor' }
+      ] 
+    });
     res.json(productos);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener los productos' });
@@ -44,7 +59,12 @@ exports.getProductos = async (req, res) => {
 
 exports.getProductoById = async (req, res) => {
   try {
-    const producto = await Producto.findByPk(req.params.id, { include: [Categoria, Proveedor] });
+    const producto = await Producto.findByPk(req.params.id, { 
+      include: [
+        { model: Categoria, as: 'Categoria' },
+        { model: Proveedor, as: 'Proveedor' }
+      ] 
+    });
     if (!producto) return res.status(404).json({ msg: 'No encontrado' });
     res.json(producto);
   } catch (error) {

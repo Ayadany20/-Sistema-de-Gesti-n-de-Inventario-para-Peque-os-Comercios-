@@ -10,17 +10,16 @@
   </div>
 
   <!-- Columna del buscador y botones -->
-   <!-- Columna del buscador y botones -->
   <div class="column">
     <div class="field is-grouped">
       <div class="control is-expanded">
-        <input class="input is-small" type="text" placeholder="Buscar por nombre">
+        <input class="input is-small" type="text" id="buscar-input-proveedor" placeholder="Buscar por nombre">
       </div>
       <div class="control">
-        <button class="button is-link is-small ml-1">Buscar</button>
+        <button class="button is-link is-small ml-1" id="btn-buscar-proveedor">Buscar</button>
       </div>
       <div class="control">
-        <button class="button is-light is-small ml-1">Limpiar</button>
+        <button class="button is-light is-small ml-1" id="btn-limpiar-proveedor">Limpiar</button>
       </div>
       <div class="control">
         <button class="button is-success is-small ml-2"  onclick="mostrarFormularioagrega()"  style="width: 100px;">Agregar</button>
@@ -29,7 +28,7 @@
   </div>
 </div>
 
-  <table class="table is-fullwidth is-bordered is-hoverable">
+  <table class="table is-fullwidth is-bordered is-hoverable" id="tabla-proveedores">
     <thead>
       <tr>
         <th>Nombre</th>
@@ -39,21 +38,97 @@
         <th>Acciones</th>
       </tr>
     </thead>
-    <tbody>
-      <!-- Aquí irán los productos desde la base de datos -->
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>
-          <button class="button is-small is-info"  onclick="mostrarFormularioEditar()" >Editar</button>
-          <button class="button is-small is-danger" onclick="confirmarEliminarr()">Eliminar</button>
-        </td>
-      </tr>
-      
+    <tbody id="tbody-proveedores">
+      <!-- Proveedores desde la base de datos -->
+      <% if (proveedores && proveedores.length > 0) { %>
+        <% proveedores.forEach(proveedor => { %>
+          <tr class="proveedor-row" data-nombre="<%= proveedor.nameproveedor.toLowerCase() %>" data-contacto="<%= (proveedor.contacto || '').toLowerCase() %>">
+            <td><%= proveedor.nameproveedor %></td>
+            <td><%= proveedor.contacto || 'Sin contacto' %></td>
+            <td><%= proveedor.direccion || 'Sin dirección' %></td>
+            <td>0</td> <!-- Número fijo de productos -->
+            <td>
+              <button class="button is-small is-info" onclick="mostrarFormularioEditar(<%= proveedor.proveedorId %>)">Editar</button>
+              <button class="button is-small is-danger" onclick="confirmarEliminarr(<%= proveedor.proveedorId %>)">Eliminar</button>
+            </td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="5" class="has-text-centered">No hay proveedores registrados</td>
+        </tr>
+      <% } %>
     </tbody>
   </table>
+
+  <script>
+    // Función para filtrar proveedores
+    function filtrarProveedores() {
+      const busqueda = document.getElementById('buscar-input-proveedor').value.toLowerCase();
+      const filas = document.querySelectorAll('#tbody-proveedores tr:not(.sin-resultados)');
+      let resultadosEncontrados = 0;
+
+      filas.forEach(fila => {
+        const nombre = fila.getAttribute('data-nombre') || '';
+        const contacto = fila.getAttribute('data-contacto') || '';
+        
+        if (nombre.toLowerCase().includes(busqueda) || 
+            contacto.toLowerCase().includes(busqueda)) {
+          fila.style.display = '';
+          resultadosEncontrados++;
+        } else {
+          fila.style.display = 'none';
+        }
+      });
+
+      // Mostrar u ocultar mensaje de "sin resultados"
+      mostrarMensajeSinResultados(resultadosEncontrados === 0 && busqueda !== '');
+    }
+
+    // Función para mostrar/ocultar mensaje de sin resultados
+    function mostrarMensajeSinResultados(mostrar) {
+      let filaSinResultados = document.querySelector('#tbody-proveedores .sin-resultados');
+      
+      if (mostrar) {
+        if (!filaSinResultados) {
+          const tbody = document.getElementById('tbody-proveedores');
+          filaSinResultados = document.createElement('tr');
+          filaSinResultados.className = 'sin-resultados';
+          filaSinResultados.innerHTML = '<td colspan="4" class="has-text-centered">No se encontraron proveedores que coincidan con la búsqueda</td>';
+          tbody.appendChild(filaSinResultados);
+        }
+        filaSinResultados.style.display = '';
+      } else if (filaSinResultados) {
+        filaSinResultados.style.display = 'none';
+      }
+    }
+
+    // Función para limpiar búsqueda
+    function limpiarBusqueda() {
+      document.getElementById('buscar-input-proveedor').value = '';
+      filtrarProveedores();
+    }
+
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+      const inputBusqueda = document.getElementById('buscar-input-proveedor');
+      const btnBuscar = document.getElementById('btn-buscar-proveedor');
+      const btnLimpiar = document.getElementById('btn-limpiar-proveedor');
+
+      if (inputBusqueda) {
+        inputBusqueda.addEventListener('input', filtrarProveedores);
+        inputBusqueda.addEventListener('keyup', filtrarProveedores);
+      }
+
+      if (btnBuscar) {
+        btnBuscar.addEventListener('click', filtrarProveedores);
+      }
+
+      if (btnLimpiar) {
+        btnLimpiar.addEventListener('click', limpiarBusqueda);
+      }
+    });
+  </script>
 </main>
 
 <%- include('partials/footer') %>
